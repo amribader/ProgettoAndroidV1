@@ -27,6 +27,8 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Another extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    private @NonNull CreateTwok twok = new CreateTwok();
+
     // two buttons to open color picker dialog and one to
     // set the color for GFG text
     private Button mSetColorButton, mPickColorButton;
@@ -47,6 +49,11 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
     // this is the default color of the preview box
     private int mDefaultColorBG;
+
+
+
+    //button Create twok and take my position
+    private Button createTwok, takeMyLocation;
 
     public Another() {
         // Required empty public constructor
@@ -90,12 +97,15 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                 switch (adapterView.getItemAtPosition(i).toString()){
                     case "small":
                         textView.setTextSize(20);
+                        twok.setFontsize("0");
                         break;
                     case "medium":
                         textView.setTextSize(32);
+                        twok.setFontsize("1");
                         break;
                     case "large":
                         textView.setTextSize(48);
+                        twok.setFontsize("2");
                         break;
                 }
             }
@@ -134,14 +144,17 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                     case "anton_regular":
                         typeface = getResources().getFont(R.font.anton_regular);
                         textView.setTypeface(typeface);
+                        twok.setFonttype("0");
                         break;
                     case "bhutuka_regular":
                         typeface = getResources().getFont(R.font.bhutuka_regular);
                         textView.setTypeface(typeface);
+                        twok.setFonttype("1");
                         break;
                     case "dancing_script":
                         typeface = getResources().getFont(R.font.dancing_script);
                         textView.setTypeface(typeface);
+                        twok.setFonttype("2");
                         break;
                 }
 
@@ -183,12 +196,15 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                     case "bottom":
                         System.err.println("BOTTOM TAB");
                         textView.setGravity(Gravity.BOTTOM);
+                        twok.setValign("0");
                         break;
                     case "top":
                         textView.setGravity(Gravity.TOP);
+                        twok.setValign("1");
                         break;
                     case "center":
                         textView.setGravity(Gravity.CENTER_VERTICAL);
+                        twok.setValign("2");
                         break;
                 }
             }
@@ -224,6 +240,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                 switch (adapterView.getItemAtPosition(i).toString()){
                     case "center":
                         textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                        twok.setHalign("0");
                         break;
                     case "left":
                         textView.setGravity(Gravity.LEFT);
@@ -326,6 +343,17 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                 });
 
 
+        takeMyLocation = view.findViewById(R.id.takeMyLocation);
+        createTwok = view.findViewById(R.id.createTwok);
+
+        createTwok.setOnClickListener(v -> {
+
+            System.err.println(textView.getText());
+            System.err.println(textView.getCurrentTextColor());
+            System.err.println(textView.getBackground());
+            System.err.println(textView.getFontFeatureSettings());
+            System.err.println(textView.getTextSize());
+        });
 
 
     }
