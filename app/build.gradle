@@ -61,4 +61,10 @@ dependencies {
 
     //mine color picker
     implementation "com.github.yukuku:ambilwarna:2.0.1"
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    implementation 'com.google.android.gms:play-services-cronet:18.0.1'
+
+    implementation 'com.android.volley:volley:1.2.1'
 }

@@ -18,10 +18,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
@@ -361,6 +372,47 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 //            System.err.println(textView.getFontFeatureSettings());
 //            System.err.println(textView.getTextSize());
             System.err.println(twok);
+
+
+// ...
+
+// Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+            String url = "https://develop.ewlab.di.unimi.it/mc/twittok/addTwok";
+
+// Request a string response from the provided URL.
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    response -> Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show(),
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("TESTTEST", "Ops: " + error.toString());
+                        }
+                    }){
+                    //error -> Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show()){
+            @Override
+                protected Map<String,String> getParams() throws AuthFailureError{
+                    Map<String,String> params = new HashMap<>();
+                    params.put("sid","qaKOeIk1DhEvBLOruWaR");
+                    params.put("text",twok.getText());
+                    params.put("bgcol","000000");
+                    params.put("fontcol","00aeef");
+                    params.put("fonttype","44");
+                    params.put("halign","1");
+                    params.put("valign","1");
+                    params.put("lan","");
+                    params.put("lon","");
+                    return params;
+                }
+            };
+            queue = Volley.newRequestQueue(getActivity());
+
+// Add the request to the RequestQueue.
+            queue.add(stringRequest);
+
+            System.err.println(queue);
+            System.err.println(stringRequest.toString());
+
 
         });
 
