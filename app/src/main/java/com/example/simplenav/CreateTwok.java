@@ -8,14 +8,14 @@ public class CreateTwok {
     private @NonNull String text;
     private @NonNull String bgcol;
     private @NonNull String fontcol;
-    private @NonNull String fontsize;
-    private @NonNull String fonttype;
-    private @NonNull String halign;
-    private @NonNull String valign;
-    private @NonNull String lat;
-    private @NonNull String lon;
+    private @NonNull int fontsize;
+    private @NonNull int fonttype;
+    private @NonNull int halign;
+    private @NonNull int valign;
+    private @NonNull int lat;
+    private @NonNull int lon;
 
-    public CreateTwok(String sid, String text, String bgcol, String fontcol, String fontsize, String fonttype, String halign, String valign, String lat, String lon) {
+    public CreateTwok(@NonNull String sid, @NonNull String text, @NonNull String bgcol, @NonNull String fontcol, int fontsize, int fonttype, int halign, int valign, int lat, int lon) {
         this.sid = sid;
         this.text = text;
         this.bgcol = bgcol;
@@ -28,86 +28,101 @@ public class CreateTwok {
         this.lon = lon;
     }
 
-    public CreateTwok() {
+    public CreateTwok(@NonNull String text, @NonNull String bgcol, @NonNull String fontcol, @NonNull int fontsize, @NonNull int fonttype, @NonNull int halign, @NonNull int valign) {
+        this.text = text;
+        this.bgcol = bgcol;
+        this.fontcol = fontcol;
+        this.fontsize = fontsize;
+        this.fonttype = fonttype;
+        this.halign = halign;
+        this.valign = valign;
     }
 
+    public CreateTwok() {
+
+    }
+
+    @NonNull
     public String getSid() {
         return sid;
     }
 
-    public void setSid(String sid) {
+    public void setSid(@NonNull String sid) {
         this.sid = sid;
     }
 
+    @NonNull
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(@NonNull String text) {
         this.text = text;
     }
 
+    @NonNull
     public String getBgcol() {
         return bgcol;
     }
 
-    public void setBgcol(String bgcol) {
+    public void setBgcol(@NonNull String bgcol) {
         this.bgcol = bgcol;
     }
 
+    @NonNull
     public String getFontcol() {
         return fontcol;
     }
 
-    public void setFontcol(String fontcol) {
+    public void setFontcol(@NonNull String fontcol) {
         this.fontcol = fontcol;
     }
 
-    public String getFontsize() {
+    public int getFontsize() {
         return fontsize;
     }
 
-    public void setFontsize(String fontsize) {
+    public void setFontsize(int fontsize) {
         this.fontsize = fontsize;
     }
 
-    public String getFonttype() {
+    public int getFonttype() {
         return fonttype;
     }
 
-    public void setFonttype(String fonttype) {
+    public void setFonttype(int fonttype) {
         this.fonttype = fonttype;
     }
 
-    public String getHalign() {
+    public int getHalign() {
         return halign;
     }
 
-    public void setHalign(String halign) {
+    public void setHalign(int halign) {
         this.halign = halign;
     }
 
-    public String getValign() {
+    public int getValign() {
         return valign;
     }
 
-    public void setValign(String valign) {
+    public void setValign(int valign) {
         this.valign = valign;
     }
 
-    public String getLat() {
+    public int getLat() {
         return lat;
     }
 
-    public void setLat(String lat) {
+    public void setLat(int lat) {
         this.lat = lat;
     }
 
-    public String getLon() {
+    public int getLon() {
         return lon;
     }
 
-    public void setLon(String lon) {
+    public void setLon(int lon) {
         this.lon = lon;
     }
 
