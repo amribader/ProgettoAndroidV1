@@ -21,12 +21,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -105,7 +112,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
         spinnerD.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (adapterView.getItemAtPosition(i).toString()){
+                switch (adapterView.getItemAtPosition(i).toString()) {
                     case "small":
                         textView.setTextSize(20);
                         twok.setFontsize(20);
@@ -143,7 +150,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                 System.err.println(adapterView.getItemAtPosition(i));
                 //Typeface face=Typeface.createFromAsset(getAssets(), "font/"+adapterView.getItemAtPosition(i).toString());
                 //textView.setTypeface(face);
-                System.err.println("font/"+adapterView.getItemAtPosition(i).toString()+".ttf");
+                System.err.println("font/" + adapterView.getItemAtPosition(i).toString() + ".ttf");
                 //Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "font/"+adapterView.getItemAtPosition(i).toString()+".ttf");
                 System.err.println(getActivity());
                 System.err.println(getActivity().getAssets());
@@ -151,7 +158,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
                 Typeface typeface = getResources().getFont(R.font.dancing_script);
 
-                switch (adapterView.getItemAtPosition(i).toString()){
+                switch (adapterView.getItemAtPosition(i).toString()) {
                     case "anton_regular":
                         typeface = getResources().getFont(R.font.anton_regular);
                         textView.setTypeface(typeface);
@@ -170,7 +177,6 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                 }
 
 
-
                 textView.setTypeface(typeface);
                 //@font/anton_regular
 
@@ -183,8 +189,6 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
             }
         });
-
-
 
 
         //////////fine
@@ -203,7 +207,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 System.err.println(adapterView.getItemAtPosition(i));
                 //center_vertical	10	top 30  bottom 50
-                switch (adapterView.getItemAtPosition(i).toString()){
+                switch (adapterView.getItemAtPosition(i).toString()) {
                     case "bottom":
                         System.err.println("BOTTOM TAB");
                         textView.setGravity(Gravity.BOTTOM);
@@ -246,9 +250,9 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
                 // LEFT 3   RIGTH 5  CENTER HORIZONTAL 1
 
-                System.err.println("->"+textView.getGravity());
+                System.err.println("->" + textView.getGravity());
 
-                switch (adapterView.getItemAtPosition(i).toString()){
+                switch (adapterView.getItemAtPosition(i).toString()) {
                     case "center":
                         textView.setGravity(Gravity.CENTER_HORIZONTAL);
                         twok.setHalign(1);
@@ -274,9 +278,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
         //////////fine
 
 
-
         //PARTE SELEZIONE COLORI
-
 
 
         // register two of the buttons with their
@@ -353,7 +355,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                         // variable its value will be changed as
                         // soon as ok button is clicked from the
                         // color picker dialog.
-                        System.err.println("Colore->"+mDefaultColorBG);
+                        System.err.println("Colore->" + mDefaultColorBG);
                         textView.setBackgroundColor(mDefaultColorBG);
                         String s = String.valueOf(mDefaultColorBG).substring(1);
                         twok.setBgcol(s);
@@ -379,45 +381,111 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(getActivity());
             String url = "https://develop.ewlab.di.unimi.it/mc/twittok/addTwok";
+//
+//// Request a string response from the provided URL.
+//            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+//                    response -> Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show(),
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Log.d("TESTTEST", "Ops: " + error.toString());
+//                        }
+//                    }) {
+//                //error -> Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show()){
+//                @Override
+//                protected Map<String, String> getParams() throws AuthFailureError {
+//                    Map<String, String> params = new HashMap<>();
+//                    params.put("sid", "qaKOeIk1DhEvBLOruWaR");
+//                    params.put("text", twok.getText());
+//                    params.put("bgcol", "000000");
+//                    params.put("fontcol", "00aeef");
+//                    params.put("fonttype", "44");
+//                    params.put("halign", "1");
+//                    params.put("valign", "1");
+//                    params.put("lan", "");
+//                    params.put("lon", "");
+//                    return params;
+//                }
+//            };
+//            queue = Volley.newRequestQueue(getActivity());
+//
+//// Add the request to the RequestQueue.
+//            queue.add(stringRequest);
+//
+//            System.err.println(queue);
+//            System.err.println(stringRequest.toString());
 
-// Request a string response from the provided URL.
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                    response -> Toast.makeText(activity, "Success", Toast.LENGTH_LONG).show(),
-                    new Response.ErrorListener() {
+
+            ////SECONDO MODO
+
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("sid", "qaKOeIk1DhEvBLOruWaR");
+                jsonObject.put("text", twok.getText());
+                jsonObject.put("bgcol", "000000");
+                jsonObject.put("fontcol", "00aeef");
+                jsonObject.put("fontsize", 44);
+                jsonObject.put("fonttype", 2);
+                jsonObject.put("halign", 1);
+                jsonObject.put("valign", 1);
+                jsonObject.put("lan", "");
+                jsonObject.put("lon", "");
+                jsonArray.put(jsonObject);
+                Log.d("jsonString", jsonObject.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                    (Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            Log.e("Response", response.toString());
+
+                            System.err.println("Response"+ response.toString());
+                            //("Response", response.toString());
+                            try {
+                                JSONArray array = response.getJSONArray("data");
+                                //parseData(array);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("TESTTEST", "Ops: " + error.toString());
+                            Log.e("Error", error.toString());
+                            System.err.println("Error"+ error.toString());
+                            String json = null;
+                            NetworkResponse networkResponse = error.networkResponse;
+                            if (networkResponse != null && networkResponse.data != null) {
+                                switch (networkResponse.statusCode) {
+                                    case 400:
+                                        json = new String(networkResponse.data);
+                                        System.err.println(json);
+                                        break;
+                                }//additional cases
+                            }
                         }
-                    }){
-                    //error -> Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show()){
-            @Override
-                protected Map<String,String> getParams() throws AuthFailureError{
-                    Map<String,String> params = new HashMap<>();
-                    params.put("sid","qaKOeIk1DhEvBLOruWaR");
-                    params.put("text",twok.getText());
-                    params.put("bgcol","000000");
-                    params.put("fontcol","00aeef");
-                    params.put("fonttype","44");
-                    params.put("halign","1");
-                    params.put("valign","1");
-                    params.put("lan","");
-                    params.put("lon","");
-                    return params;
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    //headers.put("Authorization",finalToken);
+                    return headers;
                 }
             };
-            queue = Volley.newRequestQueue(getActivity());
 
-// Add the request to the RequestQueue.
-            queue.add(stringRequest);
 
-            System.err.println(queue);
-            System.err.println(stringRequest.toString());
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(jsonObjectRequest);
 
 
         });
-
-
     }
+
+
 
 
     // the dialog functionality is handled separately
