@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.simplenav.CommucationController.GetTwok;
 import com.example.simplenav.R;
 
 public class TwokListAdapter extends RecyclerView.Adapter<Twok_ViewHolder> {
@@ -29,7 +30,7 @@ public class TwokListAdapter extends RecyclerView.Adapter<Twok_ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull Twok_ViewHolder holder, int position) {//associare gli elementi alla cella
-        String twok = twoksRepository.getTwokList(position);
+        GetTwok twok = twoksRepository.getTwokList(position);
         holder.updateContent(twok);
     }
 

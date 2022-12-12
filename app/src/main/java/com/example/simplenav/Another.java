@@ -357,7 +357,12 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                         // color picker dialog.
                         System.err.println("Colore->" + mDefaultColorBG);
                         textView.setBackgroundColor(mDefaultColorBG);
+                        System.err.println("Color->"+textView.getBackground().toString());
+                        System.err.println("Color->"+textView.getBackground());
                         String s = String.valueOf(mDefaultColorBG).substring(1);
+                        String hexColor = Integer.toHexString(mDefaultColorBG).substring(2);
+                        textView.setText("#"+hexColor);
+                        System.err.println("HEXCOLOR"+"#"+hexColor);
                         twok.setBgcol(s);
                     }
                 });

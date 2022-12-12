@@ -5,8 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -14,12 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.simplenav.CommucationController.RetrofitClient;
+import com.example.simplenav.CommucationController.GetTwok;
 import com.example.simplenav.ui.Home.TwokListAdapter;
 import com.example.simplenav.ui.Home.TwoksRepository;
+
+import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Home extends Fragment {
     private ViewPager2 viewPager2;
+    private TwoksRepository twoksRepository = new TwoksRepository();
+
     public Home() {
         // Required empty public constructor
     }
@@ -47,25 +55,71 @@ public class Home extends Fragment {
 
 
         //////////secondo modo effetto magnetico
-        TwoksRepository twoksRepository = new TwoksRepository();
-        twoksRepository.initWithFakeData();
+
+        getOneTwok();
+
+        //TwoksRepository twoksRepository = new TwoksRepository();
+        //twoksRepository.initWithFakeData();
+
+        twoksRepository.getOneTwok();
+
         viewPager2 = view.findViewById(R.id.viewPager2);
         TwokListAdapter adapter = new TwokListAdapter(twoksRepository,getActivity());
         viewPager2.setAdapter(adapter);
+
+
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 Log.d("Home","onPageScrolled");
+                //getOneTwok();
             }
 
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 Log.d("Home","onPageSelected");
+                twoksRepository.getOneTwok();
+                getOneTwok();
             }
         });
 
     }
+
+    private void getOneTwok(){
+
+        GetTwok getTwok = new GetTwok();
+
+        //getTwok.setSid("qaKOeIk1DhEvBLOruWaR");
+
+        Call<GetTwok> call = RetrofitClient.getInstance().getMyApi().getTwok(getTwok);
+
+        call.enqueue(new Callback<GetTwok>() {
+            @Override
+            public void onResponse(@NonNull Call<GetTwok> call, @NonNull Response<GetTwok> response) {
+                System.err.println("Response");
+                switch (response.code()){
+                    case 400 :
+                        System.err.println("Error 400 - Client Error"+response.code());
+                        break;
+                    case 200 :
+                        System.err.println("Success 200 - "+response.body());
+
+                        break;
+                    case 500 :
+                        System.err.println("Error 500 - Client Error"+response.code());
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetTwok> call, @NonNull Throwable t) {
+                System.err.println("ERROR");
+                t.printStackTrace();
+            }
+        });
+    }
+
 }
