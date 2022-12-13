@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplenav.CommucationController.GetTwok;
 import com.example.simplenav.R;
-
+//viewModel?
 public class Twok_ViewHolder extends RecyclerView.ViewHolder {
     private TextView mName = null;
 
@@ -17,7 +17,8 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder {
         mName = itemView.findViewById(R.id.Name);
     }
 
-    public void updateContent(GetTwok string){
-        mName.setText("string");
+    public void updateContent(String string){
+        //mName.setText("string");
+        mName.setText(string);
     }
 }

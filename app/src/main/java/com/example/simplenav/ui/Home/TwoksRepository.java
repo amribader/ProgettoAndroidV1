@@ -1,6 +1,8 @@
 package com.example.simplenav.ui.Home;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.simplenav.CommucationController.GetTwok;
 import com.example.simplenav.CommucationController.RetrofitClient;
@@ -12,38 +14,74 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TwoksRepository {//è il model
+//MODEL O VIEWMODEL
 
-    private List<GetTwok> twokList = null;
+public class TwoksRepository extends ViewModel {//è il model
 
-    public TwoksRepository() {
-        this.twokList = new ArrayList<GetTwok>();
+    private List<String> twokList = null;
+    //private List<String> twokList = null;
+    private MutableLiveData<List<String>> twoks = null;
+
+    public MutableLiveData<List<String>> getTwoks() {
+        System.err.println("getTwoks");
+        if (twoks == null) {
+            System.err.println("ramo if");
+            twoks = new MutableLiveData<List<String>>();
+            loadTwoks();
+        }
+        twokList = new ArrayList<String>();
+        return twoks;
     }
 
-    public GetTwok getTwokList(int pos) {
-        return twokList.get(pos);
+    private void loadTwoks() {
+        // Do an asynchronous operation to fetch users.
+        getOneTwok();
+    }
+
+    public void addLD(String s){
+
+    }
+
+//    public TwoksRepository() {
+//        this.tw = new ArrayList<String>();
+//    }
+
+    public String getTwokList(int pos) {
+        return twoks.getValue().get(pos);
     }
 
     public int getSize(){
-        return twokList.size();
+        return twoks.getValue().size();
+        //return twokList.size();
     }
 
     public void initWithFakeData(){
-        for (int i = 0; i < 100; i++) {
-            //.add("Entry Twok"+i);
+        for (int i = 0; i < 1; i++) {
+            twokList.add("Entry Twok"+i);
+            twoks.setValue(twokList);
+            getOneTwok();
         }
     }
 
-    public void add(GetTwok twok){
+    public void add(String twok){
         twokList.add(twok);
+        twoks.setValue(twokList);
     }
 
-    @Override
-    public String toString() {
-        return "TwoksRepository{" +
-                "twokList=" + twokList +
-                '}';
-    }
+//    public void add(String twok){
+//        twokList.add(twok);
+//    }
+
+//    public void add(GetTwok twok){
+//        twokList.add(twok);
+//    }
+
+//    @Override
+//    public String toString() {
+//        return "TwoksRepository{" +
+//                "twokList=" + twokList +
+//                '}';
+//    }
 
     public void getOneTwok(){
         System.err.println("getOneTwok");
@@ -67,8 +105,12 @@ public class TwoksRepository {//è il model
                     case 200 :
                         System.err.println("Success 200 - "+response.body());
 //                        getTwok = response.body();
-                        twokList.add(response.body());
+                        twokList.add(response.body().getText());
+                        System.err.println(response.body().getText());
                         System.err.println("List+"+twokList.toString());
+                        twoks.setValue(twokList);
+                        System.err.println("TWOKS"+twoks);
+
                         break;
                     case 500 :
                         System.err.println("Error 500 - Client Error"+response.code());
@@ -82,7 +124,7 @@ public class TwoksRepository {//è il model
                 t.printStackTrace();
             }
         });
-        System.err.println("fineMetodo"+twokList.toString());
+        //System.err.println("fineMetodo"+twokList.toString());
 
     }
 }
