@@ -6,6 +6,8 @@ public class GetTwok {
 
     private String sid = "qaKOeIk1DhEvBLOruWaR";
 
+    private String picture;
+
     private @NonNull String uid;
     private @NonNull String text;
     private @NonNull String name;

@@ -27,9 +27,11 @@ import retrofit2.Response;
 
 
 public class Home extends Fragment {
+    private TwoksRepository twoksRepository = new TwoksRepository();
     private ViewPager2 viewPager2;
-    private TwoksRepository twoksRepository = null;
+//    private TwoksRepository twoksRepository = null;
     //private TwoksRepository twoksRepository = new ViewModelProvider(this).get(TwoksRepository.class);
+
 
     public Home() {
         // Required empty public constructor
@@ -62,7 +64,8 @@ public class Home extends Fragment {
         //getOneTwok();
 
         //TwoksRepository twoksRepository = new TwoksRepository();
-        twoksRepository = new ViewModelProvider(this).get(TwoksRepository.class);
+        //twoksRepository = new ViewModelProvider(this).get(TwoksRepository.class);
+
         //twoksRepository.getTwoks();
         //twoksRepository.initWithFakeData();
 //        twoksRepository.getTwoks().observe(getViewLifecycleOwner(),twoks ->{
@@ -71,9 +74,13 @@ public class Home extends Fragment {
         //twoksRepository.getOneTwok();
         //twoksRepository.getTwoks();
         //twoksRepository.initWithFakeData();
-        twoksRepository.getTwoks();
-        twoksRepository.initWithFakeData();
+//        twoksRepository.getTwoks();
+//        twoksRepository.initWithFakeData();
+
+
         viewPager2 = view.findViewById(R.id.viewPager2);
+        twoksRepository.getOneTwok(viewPager2);
+        System.err.println("GETONETWOKDALLAHOME");
         TwokListAdapter adapter = new TwokListAdapter(twoksRepository,getActivity());
         viewPager2.setAdapter(adapter);
 
@@ -93,7 +100,8 @@ public class Home extends Fragment {
                 Log.d("Home","onPageSelected");
                 //twoksRepository.add("Ciao");
                 //twoksRepository.getOneTwok();
-                getOneTwok();
+                twoksRepository.getOneTwok(viewPager2);
+                System.err.println("GETONETWOKONPAGESELECTED");
                 //TwokListAdapter adapter = new TwokListAdapter(twoksRepository,getActivity());
                 //viewPager2.setAdapter(adapter);
                 //twoksRepository.getTwoks();
@@ -104,40 +112,40 @@ public class Home extends Fragment {
 
     }
 
-    private void getOneTwok(){
-
-        GetTwok getTwok = new GetTwok();
-
-        //getTwok.setSid("qaKOeIk1DhEvBLOruWaR");
-
-        Call<GetTwok> call = RetrofitClient.getInstance().getMyApi().getTwok(getTwok);
-
-        call.enqueue(new Callback<GetTwok>() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onResponse(@NonNull Call<GetTwok> call, @NonNull Response<GetTwok> response) {
-                System.err.println("Response");
-                switch (response.code()){
-                    case 400 :
-                        System.err.println("Error 400 - Client Error"+response.code());
-                        break;
-                    case 200 :
-                        System.err.println("Success 200 - "+response.body());
-                        twoksRepository.add(response.body().getText());
-                        viewPager2.getAdapter().notifyDataSetChanged();
-                        break;
-                    case 500 :
-                        System.err.println("Error 500 - Client Error"+response.code());
-                        break;
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<GetTwok> call, @NonNull Throwable t) {
-                System.err.println("ERROR");
-                t.printStackTrace();
-            }
-        });
-    }
+//    private void getOneTwok(ViewPager2 viewPager2){
+//
+//        GetTwok getTwok = new GetTwok();
+//
+//        //getTwok.setSid("qaKOeIk1DhEvBLOruWaR");
+//
+//        Call<GetTwok> call = RetrofitClient.getInstance().getMyApi().getTwok(getTwok);
+//
+//        call.enqueue(new Callback<GetTwok>() {
+//            @SuppressLint("NotifyDataSetChanged")
+//            @Override
+//            public void onResponse(@NonNull Call<GetTwok> call, @NonNull Response<GetTwok> response) {
+//                System.err.println("Response");
+//                switch (response.code()){
+//                    case 400 :
+//                        System.err.println("Error 400 - Client Error"+response.code());
+//                        break;
+//                    case 200 :
+//                        System.err.println("Success 200 - "+response.body());
+//                        twoksRepository.add(response.body());
+//                        viewPager2.getAdapter().notifyDataSetChanged();
+//                        break;
+//                    case 500 :
+//                        System.err.println("Error 500 - Client Error"+response.code());
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(@NonNull Call<GetTwok> call, @NonNull Throwable t) {
+//                System.err.println("ERROR");
+//                t.printStackTrace();
+//            }
+//        });
+//    }
 
 }

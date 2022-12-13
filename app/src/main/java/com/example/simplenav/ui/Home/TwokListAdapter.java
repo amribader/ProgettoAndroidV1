@@ -31,7 +31,7 @@ public class TwokListAdapter extends RecyclerView.Adapter<Twok_ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull Twok_ViewHolder holder, int position) {//associare gli elementi alla cella
         //GetTwok twok = twoksRepository.getTwokList(position);
-        String twok = twoksRepository.getTwokList(position);
+        GetTwok twok = twoksRepository.getTwokList(position);
         holder.updateContent(twok);
     }
 
