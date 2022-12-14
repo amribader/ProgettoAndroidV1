@@ -125,15 +125,21 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
         if(getPicture == null){
             return;
         }
+
         if (getPicture.getPicture()==null){
             mImage.setBackgroundResource(R.drawable.ic_baseline_account_circle_24);
             return;
         }
+
         byte[] decodedString = Base64.decode(getPicture.getPicture(),Base64.DEFAULT);
         Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
         mImage.setImageBitmap(decodeByte);
         System.err.println("BOM"+getTwokPicture(string.getUid()));
 
+
+        mImage.setOnClickListener(v ->{
+            System.err.println("hai premuto sulla immagine");
+        });
     }
 
     public void setGetPicture(GetPicture getPicture) {
