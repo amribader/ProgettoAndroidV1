@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_another" />
     <fragment
         android:id="@+id/profilo"
-        android:name="com.example.simplenav.Profilo"
+        android:name="com.example.simplenav.ui.Profile.Profilo"
         android:label="fragment_profilo"
         tools:layout="@layout/fragment_profilo" />
     <fragment
