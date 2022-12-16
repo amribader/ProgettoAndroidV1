@@ -35,6 +35,8 @@ public class ProfileAdp extends RecyclerView.Adapter<ProfileAdp.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.imageView.setImageURI(arrayList.get(position));
+        String s = arrayList.get(position).toString();
+        System.err.println("s value ="+s);
     }
 
     @Override
@@ -48,6 +50,14 @@ public class ProfileAdp extends RecyclerView.Adapter<ProfileAdp.ViewHolder> {
         ImageView imageView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageView = itemView.findViewById(R.id.iv_image);
         }
+
+        public void updateContent(){
+
+
+
+        }
+
     }
 }

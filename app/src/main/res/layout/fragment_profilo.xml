@@ -10,17 +10,44 @@
     tools:context=".ui.Profile.Profilo">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="213dp"
+            android:layout_height="70dp" />
+
+        <Button
+            android:id="@+id/bt_pickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ChangeName" />
+    </LinearLayout>
+
+
     <Button
+        android:id="@+id/bt_pick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bt_pick"
         android:text="@string/PickPhoto" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/recyclerviewProfilo"
+        android:layout_width="match_parent"
+        android:layout_height="301dp"
         android:layout_marginTop="16dp"
         tools:listitem="@layout/item_main" />
+
+    <Button
+        android:id="@+id/btnChangePicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ChangeNameImage" />
 
 </LinearLayout>

@@ -4,9 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
-import retrofit2.http.Part;
 
 public interface Api {
     String BASE_URL = "https://develop.ewlab.di.unimi.it/mc/twittok/";
@@ -20,6 +18,18 @@ public interface Api {
     @FormUrlEncoded
     @POST("getPicture")
     Call<GetPicture> getPicture(@Field("sid") String sid, @Field("uid") String uid);
+
+//    @FormUrlEncoded
+//    @POST("setProfile")
+//    void setProfile(@Field("sid") String sid, @Field("name") String name, @Field("picture") String picture);
+
+    @POST("setProfile")
+    Call<Void> setProfile(@Body setProfileI profile);
+    
+    @POST("getProfile")
+    Call<setProfileI> getProfile(@Body String sid);
+
+
 
 
 }

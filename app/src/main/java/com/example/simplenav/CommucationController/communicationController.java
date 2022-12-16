@@ -1,7 +1,5 @@
 package com.example.simplenav.CommucationController;
 
-import android.util.Log;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +25,43 @@ public class communicationController {//implements Callback<GetPicture> {
         System.err.println("metodo set" + getPicture);
         this.getPicture = getPicture;
     }
+
+//    public static void setProfile(String sid, String name, String picture, OnSetProfileListener onSetProfileListener){
+    public static void setProfile(OnSetProfileListener onSetProfileListener, setProfileI profile){
+//        Call<Void> call = RetrofitClient.getInstance().getMyApi().setProfile(sid,name,picture);
+        Call<Void> call = RetrofitClient.getInstance().getMyApi().setProfile(profile);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                onSetProfileListener.onSetProfile(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public static void getProfile(getProfile onSetProfileListener){
+        Call<setProfileI> call = RetrofitClient.getInstance().getMyApi().getProfile("qaKOeIk1DhEvBLOruWaR");
+        call.enqueue(new Callback<setProfileI>() {
+            @Override
+            public void onResponse(Call<setProfileI> call, Response<setProfileI> response) {
+                System.err.println("Response getProfile");
+                System.err.println("geProle"+response);
+                onSetProfileListener.onGetProfile(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<setProfileI> call, Throwable t) {
+                System.err.println("Failure getProfile");
+            }
+        });
+
+    }
+
+
 }
 //    public synchronized void getTwokPicture(String uid) {
 ////
