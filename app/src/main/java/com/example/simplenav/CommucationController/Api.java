@@ -1,5 +1,7 @@
 package com.example.simplenav.CommucationController;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -27,9 +29,10 @@ public interface Api {
     Call<Void> setProfile(@Body setProfileI profile);
     
     @POST("getProfile")
-    Call<setProfileI> getProfile(@Body String sid);
+    Call<getProfileO> getProfile(@Body GetTwok sid);
 
-
+    @POST("getFollowed")
+    Call<List<getProfileO>> getFollowed(@Body GetTwok sid);
 
 
 }

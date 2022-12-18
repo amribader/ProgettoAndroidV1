@@ -5,6 +5,7 @@
     <string name="PickPhoto">Pick Photo</string>
     <string name="ChangeName">Change Name</string>
     <string name="ChangeNameImage">Change Name Image</string>
+    <string name="Name">Name</string>
 
 
     <string-array name="Dimension_array">

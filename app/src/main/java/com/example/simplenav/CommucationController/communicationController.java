@@ -1,5 +1,7 @@
 package com.example.simplenav.CommucationController;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,18 +46,55 @@ public class communicationController {//implements Callback<GetPicture> {
     }
 
     public static void getProfile(getProfile onSetProfileListener){
-        Call<setProfileI> call = RetrofitClient.getInstance().getMyApi().getProfile("qaKOeIk1DhEvBLOruWaR");
-        call.enqueue(new Callback<setProfileI>() {
+        GetTwok getTwok = new GetTwok();
+        Call<getProfileO> call = RetrofitClient.getInstance().getMyApi().getProfile(getTwok);
+        call.enqueue(new Callback<getProfileO>() {
             @Override
-            public void onResponse(Call<setProfileI> call, Response<setProfileI> response) {
+            public void onResponse(Call<getProfileO> call, Response<getProfileO> response) {
                 System.err.println("Response getProfile");
                 System.err.println("geProle"+response);
                 onSetProfileListener.onGetProfile(response.body());
             }
 
             @Override
-            public void onFailure(Call<setProfileI> call, Throwable t) {
+            public void onFailure(Call<getProfileO> call, Throwable t) {
                 System.err.println("Failure getProfile");
+            }
+        });
+
+    }
+
+    public static void getProfile2(getProfile onSetProfileListener){
+        GetTwok getTwok = new GetTwok();
+        Call<getProfileO> call = RetrofitClient.getInstance().getMyApi().getProfile(getTwok);
+        call.enqueue(new Callback<getProfileO>() {
+            @Override
+            public void onResponse(Call<getProfileO> call, Response<getProfileO> response) {
+                System.err.println("Response getProfile");
+                System.err.println("geProle"+response);
+                onSetProfileListener.onGetProfile(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<getProfileO> call, Throwable t) {
+                System.err.println("Failure getProfile");
+            }
+        });
+
+    }
+
+    public static void getFollowed(getFollowed getFollowed){
+        GetTwok getTwok = new GetTwok();
+        Call<List<getProfileO>> call = RetrofitClient.getInstance().getMyApi().getFollowed(getTwok);
+        call.enqueue(new Callback<List<getProfileO>>() {
+            @Override
+            public void onResponse(Call<List<getProfileO>> call, Response<List<getProfileO>> response) {
+                getFollowed.getFollow(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<getProfileO>> call, Throwable t) {
+
             }
         });
 

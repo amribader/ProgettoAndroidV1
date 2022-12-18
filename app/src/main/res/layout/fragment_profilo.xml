@@ -18,10 +18,13 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
+        <EditText
             android:id="@+id/textViewName"
-            android:layout_width="213dp"
-            android:layout_height="70dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="87dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/Name" />
 
         <Button
             android:id="@+id/bt_pickName"
@@ -30,6 +33,11 @@
             android:text="@string/ChangeName" />
     </LinearLayout>
 
+
+    <ImageView
+        android:id="@+id/OldImage"
+        android:layout_width="212dp"
+        android:layout_height="98dp" />
 
     <Button
         android:id="@+id/bt_pick"
@@ -40,7 +48,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerviewProfilo"
         android:layout_width="match_parent"
-        android:layout_height="301dp"
+        android:layout_height="180dp"
         android:layout_marginTop="16dp"
         tools:listitem="@layout/item_main" />
 

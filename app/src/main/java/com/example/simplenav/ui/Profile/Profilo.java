@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,13 +21,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.simplenav.CommucationController.GetTwok;
 import com.example.simplenav.CommucationController.OnSetProfileListener;
 import com.example.simplenav.CommucationController.RetrofitClient;
 import com.example.simplenav.CommucationController.communicationController;
 import com.example.simplenav.CommucationController.getProfile;
+import com.example.simplenav.CommucationController.getProfileO;
 import com.example.simplenav.CommucationController.setProfileI;
 import com.example.simplenav.R;
 
@@ -34,6 +38,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Base64;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
@@ -80,7 +85,8 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
         fragment.setArguments(args);
         return fragment;
     }
-
+    //Todo fare il controllo sulla dimensione dell'immagine
+    //todo mettere degli alertt per indire la creazioen con successo
     //initialize variable
     Button btPick,btnChangePicture,bt_pickName;
     RecyclerView recyclerView;
@@ -90,6 +96,8 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
     String imageSelcted = null;
 
     TextView textViewName;
+
+    ImageView OldImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,36 +122,48 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
         btnChangePicture = view.findViewById(R.id.btnChangePicture);
 
         bt_pickName = view.findViewById(R.id.bt_pickName);
+        bt_pickName.setEnabled(false);
         textViewName = view.findViewById(R.id.textViewName);
+
+        OldImage = view.findViewById(R.id.OldImage);
 
         //GESTISCO IL CASO DI GET TWOK CIOè NEL MOMENTO IN CUI ENTRO SULLA PAGINE DEVO ANDARE A RECUPERARE
         // LE INFORMAZIONI RIGUARDANTE L'ACCOUNT
 
 
-        communicationController.getProfile(body -> System.err.println("body get profile"+body));
+        communicationController.getProfile(body -> {
+            System.err.println("body get profile" + body);
+            textViewName.setText(body.getName());
 
-        getProfile(new getProfile() {
-            @Override
-            public void onGetProfile(setProfileI body) {
-                System.err.println("body get profile metodo 2"+body);
-            }
+            byte[] decodedString = Base64.decode(body.getPicture(),Base64.DEFAULT);
+            Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+            OldImage.setImageBitmap(decodeByte);
+
         });
 
-
-        Call<setProfileI> call = RetrofitClient.getInstance().getMyApi().getProfile("qaKOeIk1DhEvBLOruWaR");
-        call.enqueue(new Callback<setProfileI>() {
-            @Override
-            public void onResponse(Call<setProfileI> call, Response<setProfileI> response) {
-                System.err.println("Response getProfile metodo 3");
-                System.err.println("geProle3"+response);
-//                onSetProfileListener.onGetProfile(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<setProfileI> call, Throwable t) {
-                System.err.println("Failure 3getProfile");
-            }
-        });
+//
+//        getProfile(new getProfile() {
+//            @Override
+//            public void onGetProfile(getProfileO body) {
+//                System.err.println("body get profile metodo 2"+body);
+//            }
+//        });
+//
+//        GetTwok getTwok = new GetTwok();
+//        Call<getProfileO> call = RetrofitClient.getInstance().getMyApi().getProfile(getTwok);
+//        call.enqueue(new Callback<getProfileO>() {
+//            @Override
+//            public void onResponse(Call<getProfileO> call, Response<getProfileO> response) {
+//                System.err.println("Response getProfile metodo 3");
+//                System.err.println("geProle3"+response);
+////                onSetProfileListener.onGetProfile(response.body());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<getProfileO> call, Throwable t) {
+//                System.err.println("Failure 3getProfile");
+//            }
+//        });
 
 
         //set listerner
@@ -173,6 +193,7 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
             setProfileI profile = new setProfileI();
             profile.setSid("qaKOeIk1DhEvBLOruWaR");
             profile.setPicture(imageSelcted);
+            profile.setName(textViewName.getText().toString());
             Call<Void> call2 = RetrofitClient.getInstance().getMyApi().setProfile(profile);
             call2.enqueue(new Callback<Void>() {
                 @Override
@@ -294,17 +315,18 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
     //prova
 
     public void getProfile(getProfile onSetProfileListener){
-        Call<setProfileI> call = RetrofitClient.getInstance().getMyApi().getProfile("qaKOeIk1DhEvBLOruWaR");
-        call.enqueue(new Callback<setProfileI>() {
+        GetTwok getTwok = new GetTwok();
+        Call<getProfileO> call = RetrofitClient.getInstance().getMyApi().getProfile(getTwok);
+        call.enqueue(new Callback<getProfileO>() {
             @Override
-            public void onResponse(Call<setProfileI> call, Response<setProfileI> response) {
+            public void onResponse(Call<getProfileO> call, Response<getProfileO> response) {
                 System.err.println("Response getProfile");
                 System.err.println("geProle"+response);
                 onSetProfileListener.onGetProfile(response.body());
             }
 
             @Override
-            public void onFailure(Call<setProfileI> call, Throwable t) {
+            public void onFailure(Call<getProfileO> call, Throwable t) {
                 System.err.println("Failure getProfile");
             }
         });
