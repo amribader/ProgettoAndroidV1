@@ -13,5 +13,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {//si adatta al loyout s
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
+        image = itemView
     }
 }
