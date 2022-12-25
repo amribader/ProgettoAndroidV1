@@ -26,6 +26,8 @@ public class getProfileO {
         this.sid = sid;
     }
 
+    public getProfileO() {
+    }
 
     @NotNull
     public String getName() {

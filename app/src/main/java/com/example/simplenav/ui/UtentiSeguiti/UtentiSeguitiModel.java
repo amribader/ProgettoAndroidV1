@@ -1,6 +1,11 @@
 package com.example.simplenav.ui.UtentiSeguiti;
 
 import androidx.lifecycle.ViewModel;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.simplenav.CommucationController.communicationController;
+import com.example.simplenav.CommucationController.getFollowed;
 import com.example.simplenav.CommucationController.getProfileO;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +17,15 @@ public class UtentiSeguitiModel extends ViewModel {
 
         public UtentiSeguitiModel() {
             this.follower = new ArrayList<getProfileO>();
+            //getOneTwok();
+//            communicationController.getFollowed(new getFollowed() {
+//                @Override
+//                public void getFollow(List<getProfileO> body) {
+//                    follower = body;
+//                    System.err.println("body="+body);
+//                }
+//            });
+            //System.err.println(getFollower());
         }
 
         public getProfileO getFollower(int pos) {
@@ -22,43 +36,41 @@ public class UtentiSeguitiModel extends ViewModel {
             return follower.size();
         }
 
-        public void add(getProfileO twok) {
-            follower.add(twok);
+        public void setFollower(List<getProfileO> follower) {
+            this.follower = follower;
         }
 
-//        public void getOneTwok(ViewPager2 viewPager2) {
-//
-//            GetTwok getTwok = new GetTwok();
-//
-//            //getTwok.setSid("qaKOeIk1DhEvBLOruWaR");
-//
-//            Call<GetTwok> call = RetrofitClient.getInstance().getMyApi().getTwok(getTwok);
-//
-//            call.enqueue(new Callback<GetTwok>() {
-//                @SuppressLint("NotifyDataSetChanged")
-//                @Override
-//                public void onResponse(@NonNull Call<GetTwok> call, @NonNull Response<GetTwok> response) {
-//                    System.err.println("Response");
-//                    switch (response.code()) {
-//                        case 400:
-//                            System.err.println("Error 400 - Client Error" + response.code());
-//                            break;
-//                        case 200:
-//                            System.err.println("Success 200 - " + response.body());
-//                            twokList.add(response.body());
-//                            viewPager2.getAdapter().notifyDataSetChanged();
-//                            break;
-//                        case 500:
-//                            System.err.println("Error 500 - Client Error" + response.code());
-//                            break;
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(@NonNull Call<GetTwok> call, @NonNull Throwable t) {
-//                    System.err.println("ERROR");
-//                    t.printStackTrace();
-//                }
-//            });
-//        }
+        public void initfakedata(){
+            for (int i = 0; i < 10; i++) {
+                getProfileO getProfileO = new getProfileO();
+                String s = "ciao"+i+"";
+                getProfileO.setName(s);
+                follower.add(getProfileO);
+            }
+        }
+
+    public List<getProfileO> getFollower() {
+        return follower;
+    }
+
+    public void getOneTwok(RecyclerView rv) {
+            communicationController.getFollowed(body -> {
+                //System.err.println("responso utenti seguiti"+body);
+                for (getProfileO x: body) {
+                    //System.err.println(x);
+                    follower.add(x);
+                }
+                //setFollower(body);
+                //System.err.println("follower2"+follower);
+                rv.getAdapter().notifyDataSetChanged();
+            });
+            //System.err.println("follower"+follower);
+        }
+
+    @Override
+    public String toString() {
+        return "UtentiSeguitiModel{" +
+                "follower=" + follower +
+                '}';
+    }
 }

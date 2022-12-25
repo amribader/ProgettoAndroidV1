@@ -51,7 +51,7 @@ public class Home extends Fragment {
 //        TwoksRepository twoksRepository = new TwoksRepository();
 //        twoksRepository.initWithFakeData();
 //        RecyclerView recyclerView = view.findViewById(R.id.viewPager2);
-//        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
 //
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        TwokListAdapter adapter = new TwokListAdapter(twoksRepository,getActivity());

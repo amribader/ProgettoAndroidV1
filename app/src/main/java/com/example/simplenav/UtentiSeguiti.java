@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +16,15 @@ import android.view.ViewGroup;
 import com.example.simplenav.CommucationController.communicationController;
 import com.example.simplenav.CommucationController.getFollowed;
 import com.example.simplenav.CommucationController.getProfileO;
+import com.example.simplenav.ui.UtentiSeguiti.UtentiSeguitiAdp;
+import com.example.simplenav.ui.UtentiSeguiti.UtentiSeguitiModel;
 
 import java.util.List;
 
 public class UtentiSeguiti extends Fragment {
 
+    private UtentiSeguitiModel model;
+    private RecyclerView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,11 +42,30 @@ public class UtentiSeguiti extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        communicationController.getFollowed(body -> {
-            System.err.println("responso utenti seguiti"+body);
-            for (getProfileO x: body) {
-                System.err.println(x);
-            }
-        });
+        model = new UtentiSeguitiModel();
+        recyclerView = view.findViewById(R.id.recyclerViewFollower);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        UtentiSeguitiAdp adapter = new UtentiSeguitiAdp(model,getActivity());
+        recyclerView.setAdapter(adapter);
+
+        //model.initfakedata();
+        model.getOneTwok(recyclerView);
+//        System.err.println(model);
+        //model.getOneTwok(recyclerView);
+        //model.getFollower().forEach();
+        for (getProfileO x :
+                model.getFollower()) {
+            System.err.println("model utenti seguit"+x);
+        }
+
+//
+//
+//        System.err.println(recyclerView);
+//
+//        System.err.println("model+"+model);
+////        System.err.println("model+ 0"+model.getFollower(0));
+//        System.err.println("model+ size"+model.getSize());
+////        UtentiSeguitiAdp adapter = new UtentiSeguitiAdp(model,getActivity());
+////        recyclerView.setAdapter(adapter);
     }
 }
