@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.simplenav.CommucationController.GetPicture;
 import com.example.simplenav.CommucationController.communicationController;
 import com.example.simplenav.CommucationController.getFollowed;
+import com.example.simplenav.CommucationController.getPictureI;
+import com.example.simplenav.CommucationController.getProfile;
 import com.example.simplenav.CommucationController.getProfileO;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,18 +57,49 @@ public class UtentiSeguitiModel extends ViewModel {
     }
 
     public void getOneTwok(RecyclerView rv) {
+            getProfileO user = new getProfileO();
             communicationController.getFollowed(body -> {
                 //System.err.println("responso utenti seguiti"+body);
                 for (getProfileO x: body) {
-                    //System.err.println(x);
-                    follower.add(x);
+                    System.err.println("body getTwok"+x);
+                    //follower.add(x);
+                    user.setName(x.getName());
+                    communicationController.getPicture("qaKOeIk1DhEvBLOruWaR", x.getUid(), new getPictureI() {
+                        @Override
+                        public void getPicture(GetPicture body) {
+                            System.err.println("USM+ getONeTwok getPicture"+body);
+                            user.setPicture(body.getPicture());
+                            follower.add(user);
+                            rv.getAdapter().notifyDataSetChanged();
+                        }
+                    });//todo sid hardcoded
                 }
                 //setFollower(body);
                 //System.err.println("follower2"+follower);
-                rv.getAdapter().notifyDataSetChanged();
+                //follower.add(user);
+                //rv.getAdapter().notifyDataSetChanged();//funziona provo a spostarlo sopra
             });
             //System.err.println("follower"+follower);
         }
+
+//    public void fun(RecyclerView rv){
+//        System.err.println("fun");
+//        getOneTwok(rv);
+//        System.err.println("ciao i follower sono"+follower);
+//        for (getProfileO x : follower) {
+//            System.err.println("dentro a fun"+x);
+//            communicationController.getPicture(x.getSid(),x.getUid());
+//        }
+//    }
+
+//    public void fun(){
+//        System.err.println("fun");
+//        System.err.println("ciao i follower sono"+follower);
+//        for (getProfileO x : follower) {
+//            System.err.println("dentro a fun"+x);
+//            communicationController.getPicture("qaKOeIk1DhEvBLOruWaR",x.getUid());//todo sid hardcoded
+//        }
+//    }
 
     @Override
     public String toString() {

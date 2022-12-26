@@ -48,13 +48,16 @@ public class UtentiSeguiti extends Fragment {
         UtentiSeguitiAdp adapter = new UtentiSeguitiAdp(model,getActivity());
         recyclerView.setAdapter(adapter);
 
+        model.getOneTwok(recyclerView);//riga giusta cosi funziona
         //model.initfakedata();
-        model.getOneTwok(recyclerView);
+        ////model.getOneTwok(recyclerView);//riga giusta cosi funziona
+        //model.fun(recyclerView);
 //        System.err.println(model);
         //model.getOneTwok(recyclerView);
         //model.getFollower().forEach();
         for (getProfileO x :
                 model.getFollower()) {
+
             System.err.println("model utenti seguit"+x);
         }
 

@@ -5,15 +5,15 @@ import com.google.gson.annotations.SerializedName;
 import org.jetbrains.annotations.NotNull;
 
 public class getProfileO {
-    @SerializedName("uid")
+    //@SerializedName("uid")
     private int uid;
-    @SerializedName("sid")
+    //@SerializedName("sid")
     private @NotNull String sid;
-    @SerializedName("name")
+    //@SerializedName("name")
     private @NotNull String name;
-    @SerializedName("picture")
+    //@SerializedName("picture")
     private @NotNull String picture;
-    @SerializedName("pversion")
+    //@SerializedName("pversion")
     private int pversion;
 
 

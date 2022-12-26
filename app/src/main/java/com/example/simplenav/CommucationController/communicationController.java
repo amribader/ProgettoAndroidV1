@@ -100,7 +100,25 @@ public class communicationController {//implements Callback<GetPicture> {
 
     }
 
+    public static void getPicture(String sid, int uid, getPictureI getPicture) {
+        Call<GetPicture> call = RetrofitClient.getInstance().getMyApi().getPicture(sid,String.valueOf(uid));
+        call.enqueue(new Callback<GetPicture>() {
+            @Override
+            public void onResponse(Call<GetPicture> call, Response<GetPicture> response) {
+                //todo aggiungere controlli sul code e if rami
+                getPicture.getPicture(response.body());
+                System.err.println("sid"+sid+"uid"+uid);
+                System.err.println("RESponse");
+                System.err.println("CC getPicture"+response);
+                System.err.println("CC getPicture"+response.body());
+            }
 
+            @Override
+            public void onFailure(Call<GetPicture> call, Throwable t) {
+                System.err.println("Failure");
+            }
+        });
+    }
 }
 //    public synchronized void getTwokPicture(String uid) {
 ////

@@ -1,5 +1,8 @@
 package com.example.simplenav.ui.UtentiSeguiti;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,5 +25,12 @@ public class ViewHolder extends RecyclerView.ViewHolder {//si adatta al loyout s
     public void updateContent(getProfileO p){
 //        image.setImageBitmap();
         text.setText(p.getName());
+
+        System.err.println("VH"+p);
+
+        byte[] decodedString = Base64.decode(p.getPicture(),Base64.DEFAULT);
+        Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+        image.setImageBitmap(decodeByte);
+
     }
 }
