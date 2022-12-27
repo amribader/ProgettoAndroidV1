@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.simplenav.CommucationController.RetrofitClient;
 import com.example.simplenav.CommucationController.GetTwok;
@@ -47,6 +48,18 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //todo parte nuova passaggio parametri
+
+        String s = getArguments().getString("uid");
+        int i = getArguments().describeContents();
+//        int x = getArguments().get(String.valueOf("uid"));
+        int uid = getArguments().getInt("uid");
+
+        System.err.println("HOME s ="+s+ "  "+i +"  - "+uid);
+        //int amount = ConfirmationFragmentArgs.fromBundle(getArguments()).getAmount();
+
+
         //codice funzionante primo modo prof
 //        TwoksRepository twoksRepository = new TwoksRepository();
 //        twoksRepository.initWithFakeData();
@@ -79,7 +92,18 @@ public class Home extends Fragment {
 
 
         viewPager2 = view.findViewById(R.id.viewPager2);
-        twoksRepository.getOneTwok(viewPager2);
+
+        Button button = view.findViewById(R.id.Follow);
+
+        if(uid==-1){
+            button.setVisibility(View.GONE);
+            twoksRepository.getOneTwok(viewPager2);
+        }else{
+            button.setVisibility(View.VISIBLE);
+            twoksRepository.getTwokByUid(viewPager2,uid);
+        }
+
+
         System.err.println("GETONETWOKDALLAHOME");
         TwokListAdapter adapter = new TwokListAdapter(twoksRepository,getActivity());
         viewPager2.setAdapter(adapter);
@@ -100,7 +124,16 @@ public class Home extends Fragment {
                 Log.d("Home","onPageSelected");
                 //twoksRepository.add("Ciao");
                 //twoksRepository.getOneTwok();
-                twoksRepository.getOneTwok(viewPager2);
+
+
+                //todo gestire mostra oppre il pulsante
+                if(uid==-1){
+                    twoksRepository.getOneTwok(viewPager2);
+                }else{
+                    twoksRepository.getTwokByUid(viewPager2,uid);
+                }
+
+                //twoksRepository.getOneTwok(viewPager2);
                 System.err.println("GETONETWOKONPAGESELECTED");
                 //TwokListAdapter adapter = new TwokListAdapter(twoksRepository,getActivity());
                 //viewPager2.setAdapter(adapter);

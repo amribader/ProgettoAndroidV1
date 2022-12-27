@@ -64,6 +64,7 @@ public class UtentiSeguitiModel extends ViewModel {
                     System.err.println("body getTwok"+x);
                     //follower.add(x);
                     user.setName(x.getName());
+                    user.setUid(x.getUid());
                     communicationController.getPicture("qaKOeIk1DhEvBLOruWaR", x.getUid(), new getPictureI() {
                         @Override
                         public void getPicture(GetPicture body) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,5 +71,20 @@ public class UtentiSeguiti extends Fragment {
 //        System.err.println("model+ size"+model.getSize());
 ////        UtentiSeguitiAdp adapter = new UtentiSeguitiAdp(model,getActivity());
 ////        recyclerView.setAdapter(adapter);
+
+//        Bundle bundle = new Bundle();
+//        bundle.putString("amount", amount);
+//        Navigation.findNavController(view).navigate(R.id.confirmationAction, bundle);
+
+//        view.findViewById(R.id.profile_pic).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Bundle bundle = new Bundle();
+////                bundle.putString("uid", "500");
+//                bundle.putInt("uid",500);
+//                Navigation.findNavController(view).navigate(R.id.action_utentiSeguiti_to_home, bundle);
+//            }
+//        });
+
     }
 }

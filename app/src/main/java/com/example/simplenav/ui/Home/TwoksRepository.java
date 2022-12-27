@@ -75,6 +75,44 @@ public class TwoksRepository extends ViewModel {//è il model
             }
         });
     }
+
+    public void getTwokByUid(ViewPager2 viewPager2, int uid) {
+        GetTwok getTwok = new GetTwok();
+        getTwok.setUid(String.valueOf(uid));
+        //getTwok.setSid("qaKOeIk1DhEvBLOruWaR");
+        System.err.println("Get Twok BY UID");
+
+        System.err.println("get two"+ getTwok);
+        Call<GetTwok> call = RetrofitClient.getInstance().getMyApi().getTwok(getTwok);
+
+        call.enqueue(new Callback<GetTwok>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(@NonNull Call<GetTwok> call, @NonNull Response<GetTwok> response) {
+                System.err.println("Response");
+                System.err.println(response);
+                switch (response.code()) {
+                    case 400:
+                        System.err.println("Error 400 - Client Error" + response.code());
+                        break;
+                    case 200:
+                        System.err.println("Success 200 - " + response.body());
+                        twokList.add(response.body());
+                        viewPager2.getAdapter().notifyDataSetChanged();
+                        break;
+                    case 500:
+                        System.err.println("Error 500 - Client Error" + response.code());
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<GetTwok> call, @NonNull Throwable t) {
+                System.err.println("ERROR");
+                t.printStackTrace();
+            }
+        });
+    }
 }
 //    public void getTwokPicture() {
 //

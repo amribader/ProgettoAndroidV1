@@ -9,7 +9,12 @@
         android:id="@+id/home"
         android:name="com.example.simplenav.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <argument
+            android:name="uid"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
     <fragment
         android:id="@+id/another2"
         android:name="com.example.simplenav.Another"
@@ -24,5 +29,9 @@
         android:id="@+id/utentiSeguiti"
         android:name="com.example.simplenav.UtentiSeguiti"
         android:label="fragment_utenti_seguiti"
-        tools:layout="@layout/fragment_utenti_seguiti" />
+        tools:layout="@layout/fragment_utenti_seguiti" >
+        <action
+            android:id="@+id/action_utentiSeguiti_to_home"
+            app:destination="@id/home" />
+    </fragment>
 </navigation>
