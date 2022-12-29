@@ -17,6 +17,10 @@ import android.widget.Button;
 
 import com.example.simplenav.CommucationController.RetrofitClient;
 import com.example.simplenav.CommucationController.GetTwok;
+import com.example.simplenav.CommucationController.communicationController;
+import com.example.simplenav.CommucationController.follow;
+import com.example.simplenav.CommucationController.followI;
+import com.example.simplenav.CommucationController.isFollowed;
 import com.example.simplenav.ui.Home.TwokListAdapter;
 import com.example.simplenav.ui.Home.TwoksRepository;
 
@@ -101,6 +105,51 @@ public class Home extends Fragment {
         }else{
             button.setVisibility(View.VISIBLE);
             twoksRepository.getTwokByUid(viewPager2,uid);
+
+            //vado a chiamare il metodo is follower
+            communicationController.isFollowed("qaKOeIk1DhEvBLOruWaR", uid, new isFollowed() {
+                @Override
+                public void isFollowed(follow body) {
+                    System.err.println("Home body 111"+ body);
+
+                    if(body.getFollowed()){
+                        //true imposta scritto smetti di seguire
+                        button.setText("UNFOLLOW");
+                    }else {
+                        //false imposta scritta segui
+                        button.setText("FOLLOW");
+                    }
+
+                    button.setOnClickListener(view1 -> {
+                        if (body.getFollowed()){
+                            //true codice per smettere di seguire questo tizio
+                            //chiamate di rete
+                            communicationController.unfollow("qaKOeIk1DhEvBLOruWaR", uid, new followI() {
+                                @Override
+                                public void follow(Void body) {
+                                    System.err.println("130 HOME follow"+body);
+                                }
+                            });
+                            //do un alert che ho smesso di seguirlo
+                            //cambio la scritta del testo in segui
+                            button.setText("FOLLOW");
+                        }else{
+                            //todo attenzioni serve veramente questo ramo??
+                            communicationController.follow("qaKOeIk1DhEvBLOruWaR", uid, body1 -> System.err.println("130 HOME follow"+ body1));
+                            //do un alert che ho smesso di seguirlo
+                            //cambio la scritta del testo in segui
+                            button.setText("UNFOLLOW");
+                        }
+                    });
+
+                }
+            });
+
+            //impostare la scritta sul bottone
+
+            //on button click in base alle scritta con un if vado a gestire i casi
+
+
         }
 
 
@@ -181,4 +230,13 @@ public class Home extends Fragment {
 //        });
 //    }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("onPause","onPause");
+        getArguments().clear();
+        getArguments().putInt("uid",-1);
+        //getArguments().getBundle("uid").set
+    }
 }

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplenav.CommucationController.GetPicture;
@@ -137,8 +139,29 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
         System.err.println("BOM"+getTwokPicture(string.getUid()));
 
 
-        mImage.setOnClickListener(v ->{
-            System.err.println("hai premuto sulla immagine");
+//        mImage.setOnClickListener(v ->{
+//            System.err.println("hai premuto sulla immagine");
+//
+//            Log.d("TVH OBJ",string.toString());
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt("uid",Integer.parseInt(string.getUid()));
+//                    Navigation.findNavController(v).navigate(R.id.action_home_pop, bundle);
+////
+//
+//
+//
+//        });
+
+        mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.err.println("hai premuto sulla immagine");
+
+                Log.d("TVH OBJ",string.toString());
+                Bundle bundle = new Bundle();
+                bundle.putInt("uid",Integer.parseInt(string.getUid()));
+                Navigation.findNavController(view).navigate(R.id.action_home_pop, bundle);
+            }
         });
     }
 

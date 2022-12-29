@@ -34,5 +34,18 @@ public interface Api {
     @POST("getFollowed")
     Call<List<getProfileO>> getFollowed(@Body GetTwok sid);
 
+    @FormUrlEncoded
+    @POST("isFollowed")
+    Call<follow> isFollowed(@Field("sid") String sid, @Field("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("unfollow")
+    Call<Void> unfollow(@Field("sid") String sid, @Field("uid") String uid);
+
+    @FormUrlEncoded
+    @POST("follow")
+    Call<Void> follow(@Field("sid") String sid, @Field("uid") String uid);
+
+
 
 }

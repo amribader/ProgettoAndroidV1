@@ -119,6 +119,70 @@ public class communicationController {//implements Callback<GetPicture> {
             }
         });
     }
+
+    public static void isFollowed(String sid, int uid,isFollowed isFollowed){
+        System.err.println("is Followed");
+        Call<follow> call = RetrofitClient.getInstance().getMyApi().isFollowed(sid,String.valueOf(uid));
+        call.enqueue(new Callback<follow>() {
+            @Override
+            public void onResponse(Call<follow> call, Response<follow> response) {
+                //todo fare tutti i controlli del caso 200 400 ecc
+                System.err.println("RESponse is Followed");
+                isFollowed.isFollowed(response.body());
+                System.err.println("sid"+sid+"uid"+uid);
+                System.err.println("CC isFollowed"+response);
+                System.err.println("CC isFollowed"+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<follow> call, Throwable t) {
+                System.err.println("Failure is Followed");
+            }
+        });
+    }
+
+    public static void follow(String sid, int uid, followI follow){
+        System.err.println("follow");
+        Call<Void> call = RetrofitClient.getInstance().getMyApi().follow(sid,String.valueOf(uid));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                follow.follow(response.body());
+                //todo controeei sul vari caso
+                System.err.println("RESponse  Follow");
+                System.err.println("sid"+sid+"uid"+uid);
+                System.err.println("CC Follow"+response);
+                System.err.println("CC Follow"+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.err.println("Failure Follow");
+            }
+        });
+    }
+
+    public static void unfollow(String sid, int uid, followI follow){
+        System.err.println("unfollow");
+        Call<Void> call = RetrofitClient.getInstance().getMyApi().unfollow(sid,String.valueOf(uid));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                follow.follow(response.body());//todo essendo void quest frase non serve
+                //todo controeei sul vari caso
+                System.err.println("RESponse  unfollow");
+                System.err.println("sid"+sid+"uid"+uid);
+                System.err.println("CC unfollow"+response);
+                System.err.println("CC unfollow"+response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.err.println("Failure unfollow");
+            }
+        });
+    }
+
 }
 //    public synchronized void getTwokPicture(String uid) {
 ////
