@@ -57,10 +57,10 @@ public class UtentiSeguitiModel extends ViewModel {
     }
 
     public void getOneTwok(RecyclerView rv) {
-            getProfileO user = new getProfileO();
             communicationController.getFollowed(body -> {
                 //System.err.println("responso utenti seguiti"+body);
                 for (getProfileO x: body) {
+            getProfileO user = new getProfileO();
                     System.err.println("body getTwok"+x);
                     //follower.add(x);
                     user.setName(x.getName());
