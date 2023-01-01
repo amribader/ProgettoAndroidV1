@@ -39,4 +39,9 @@
             android:id="@+id/action_utentiSeguiti_to_home"
             app:destination="@id/home" />
     </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.simplenav.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

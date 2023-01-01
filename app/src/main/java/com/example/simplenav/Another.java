@@ -1,11 +1,20 @@
 package com.example.simplenav;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -24,28 +33,37 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.simplenav.CommucationController.GetTwok;
+import com.example.simplenav.CommucationController.addTwokI;
+import com.example.simplenav.CommucationController.communicationController;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import retrofit2.Response;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class Another extends Fragment implements AdapterView.OnItemSelectedListener {
 
-    private final @NonNull CreateTwok twok = new CreateTwok();
+    //private final @NonNull CreateTwok twok = new CreateTwok();
+    private final @NonNull GetTwok twok = new GetTwok();
 
     // two buttons to open color picker dialog and one to
     // set the color for GFG text
@@ -72,6 +90,15 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
     //button Create twok and take my position
     private Button createTwok, takeMyLocation;
+
+    //attributi per ottenre la posizione
+
+    FusedLocationProviderClient fusedLocationProviderClient;
+    TextView country,city,address,longitude,latitude;
+    Button getLocation;
+    private  final  static int REQUEST_CODE=100;
+
+
 
     public Another() {
         // Required empty public constructor
@@ -316,7 +343,9 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                         // color picker dialog.
                         textView.setTextColor(mDefaultColor);
                         String s = String.valueOf(mDefaultColor).substring(1);
-                        twok.setFontcol(s);
+                        String hexColor = Integer.toHexString(mDefaultColor).substring(2);
+                        twok.setFontcol(hexColor);
+                        //twok.setFontcol(s);
                     }
                 });
 /////////////////
@@ -361,14 +390,28 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
                         System.err.println("Color->"+textView.getBackground());
                         String s = String.valueOf(mDefaultColorBG).substring(1);
                         String hexColor = Integer.toHexString(mDefaultColorBG).substring(2);
-                        textView.setText("#"+hexColor);
+                        //textView.setText("#"+hexColor);
                         System.err.println("HEXCOLOR"+"#"+hexColor);
-                        twok.setBgcol(s);
+                        twok.setBgcol(hexColor);
+                        //twok.setBgcol(s);
                     }
                 });
 
 
         takeMyLocation = view.findViewById(R.id.takeMyLocation);
+
+        fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(getActivity());
+
+        takeMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("clickMyLocation","clickMyLocation");
+                getLastLocation();
+            }
+        });
+
+
+
         createTwok = view.findViewById(R.id.createTwok);
 
         createTwok.setOnClickListener(v -> {
@@ -379,8 +422,20 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 //            System.err.println(textView.getFontFeatureSettings());
 //            System.err.println(textView.getTextSize());
             System.err.println(twok);
+            //twok.setSid("qaKOeIk1DhEvBLOruWaR");
+            //todo sid hardcoded
+            //todo sito con cose non insegnate in uni
+            //todo ho riciclato le mie pagine va bene??
+            communicationController.addTwok(twok, new addTwokI() {
+                @Override
+                public void addTwok(Response<Void> response) {
+                    //operaizone eseguita con successo
+                    Toast.makeText(getActivity(), "success", Toast.LENGTH_SHORT).show();
+                    //agiungere codice navigate to bacheca
+                }
+            });
 
-
+/*
 // ...
 
 // Instantiate the RequestQueue.
@@ -422,6 +477,8 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
 
             ////SECONDO MODO
+
+            //todo risolvere con il terzo metodo
 
             JSONArray jsonArray = new JSONArray();
             JSONObject jsonObject = new JSONObject();
@@ -485,7 +542,7 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
 
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
             requestQueue.add(jsonObjectRequest);
-
+*/
 
         });
     }
@@ -569,5 +626,102 @@ public class Another extends Fragment implements AdapterView.OnItemSelectedListe
     public void onNothingSelected(AdapterView<?> adapterView) {
         // Another interface callback
 
+    }
+
+
+    //////////////////////////////////////////////////////////////
+
+
+
+    private void getLastLocation() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+
+            fusedLocationProviderClient.getLastLocation()
+                    .addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            System.err.println("location"+location);
+                            if (location !=null){
+                                System.err.println("location dentro if");
+                                Geocoder geocoder=new Geocoder(getActivity(), Locale.getDefault());
+                                List<Address> addresses= null;
+                                try {
+                                    addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+//                                    latitude.setText("Lagitude :" +addresses.get(0).getLatitude());
+//                                    longitude.setText("Longitude :"+addresses.get(0).getLongitude());
+//                                    address.setText("Address :"+addresses.get(0).getAddressLine(0));
+//                                    city.setText("City :"+addresses.get(0).getLocality());
+//                                    country.setText("Country :"+addresses.get(0).getCountryName());
+
+                                    Log.d("myPosition", String.valueOf(addresses.get(0).getLatitude()));
+                                    Log.d("myPosition", String.valueOf(addresses.get(0).getLongitude()));
+                                    Log.d("myPosition", String.valueOf(addresses.get(0).getAddressLine(0)));
+                                    Log.d("myPosition", String.valueOf(addresses.get(0).getLocality()));
+                                    Log.d("myPosition", String.valueOf(addresses.get(0).getCountryName()));
+
+                                    System.out.println("address"+addresses.get(0));
+                                    System.err.println("Another Location");
+
+                                    twok.setLat(45);
+                                    twok.setLon(11);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    System.err.println("catch??");
+                                }
+
+
+
+                            }else{
+                                //todo funziona solamente se il gps è attivato da un po altyriensi entri qui
+                                //alert attiva il gps per questa funzionalità
+                                AlertDialog.Builder myAlert = new AlertDialog.Builder(getActivity());
+                                myAlert.setTitle("Errore");
+                                myAlert.setMessage("GPS non attivo");
+                                myAlert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(getActivity(), "ok click", Toast.LENGTH_SHORT).show();
+
+                                        //todo inserire il codice che attiva il gps dello smarphone
+                                    }
+                                });
+                                myAlert.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(getActivity(), "no click", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+
+
+        }else
+        {
+
+            askPermission();
+
+        }
+    }
+
+    private void askPermission() {
+        ActivityCompat.requestPermissions(getActivity(), new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode==REQUEST_CODE){
+            if (grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                getLastLocation();
+            }
+            else {
+                Toast.makeText(getActivity(), "Required Permission", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

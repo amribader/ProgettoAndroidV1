@@ -46,6 +46,7 @@ public interface Api {
     @POST("follow")
     Call<Void> follow(@Field("sid") String sid, @Field("uid") String uid);
 
-
+    @POST("addTwok")
+    Call<Void> addTwok(@Body GetTwok twok);
 
 }

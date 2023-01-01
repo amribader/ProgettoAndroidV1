@@ -183,6 +183,24 @@ public class communicationController {//implements Callback<GetPicture> {
         });
     }
 
+    public static void addTwok(GetTwok twok, addTwokI addTwok){
+        System.err.println("addTwok");
+        Call<Void> call = RetrofitClient.getInstance().getMyApi().addTwok(twok);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                System.err.println("Response CC add Twok"+response);
+                addTwok.addTwok(response);
+                //todo fare i controlli crociati con resopnse code
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.err.println("Failure CC add Twok");
+            }
+        });
+    }
+
 }
 //    public synchronized void getTwokPicture(String uid) {
 ////

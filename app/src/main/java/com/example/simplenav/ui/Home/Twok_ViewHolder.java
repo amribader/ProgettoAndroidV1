@@ -128,7 +128,7 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
             return;
         }
 
-        if (getPicture.getPicture()==null){
+        if (getPicture.getPicture()==null || getPicture.getPicture().substring(0,4).equals("file")){
             mImage.setBackgroundResource(R.drawable.ic_baseline_account_circle_24);
             return;
         }
