@@ -12,6 +12,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
     private TextView mText = null;
     private ImageView mImage = null;
 
+    private Button btnMap = null;
+
     private GetPicture getPicture;
 
     public Twok_ViewHolder(@NonNull View itemView) {
@@ -44,6 +47,8 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
         mName = itemView.findViewById(R.id.Name);
         mText = itemView.findViewById(R.id.TwokText);
         mImage = itemView.findViewById(R.id.imageView);
+
+        btnMap = itemView.findViewById(R.id.buttonMap);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -58,6 +63,8 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
             itemView.setBackgroundColor(R.color.white);
             mText.setTextColor(R.color.black);
         }else{
+            //todo se arrivano i colori sotto format it re blue purple ecc non funziona gestire anche questo caso
+
             itemView.setBackgroundColor(Color.parseColor("#"+string.getBgcol()));
             System.err.println("Color="+Color.parseColor("#"+string.getBgcol()));
             mText.setTextColor(Color.parseColor("#"+string.getFontcol()));
@@ -163,6 +170,40 @@ public class Twok_ViewHolder extends RecyclerView.ViewHolder implements Callback
                 Navigation.findNavController(view).navigate(R.id.action_home_pop, bundle);
             }
         });
+
+
+        if (string.getLat() != 0.0 && string.getLon()!=0.0){
+            System.err.println("dentro if quindi è presenta lat e lon");
+            btnMap.setVisibility(View.VISIBLE);
+
+            btnMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    System.err.println("pulsante mappa");
+                Bundle bundle = new Bundle();
+                bundle.putFloat("latitude",string.getLat());
+                bundle.putFloat("longitude",string.getLat());
+                Navigation.findNavController(view).navigate(R.id.action_home_to_mapsFragment, bundle);
+                }
+            });
+
+        }else{
+            btnMap.setVisibility(View.GONE);
+        }
+
+        System.err.println("latitudine"+string.getLat()+"longitudine"+string.getLon());
+
+//        btnMap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                System.err.println("pulsante mappa");
+////                Bundle bundle = new Bundle();
+////                bundle.putFloat("latitude",string.getLat());
+////                bundle.putFloat("longitude",string.getLat());
+////                Navigation.findNavController(view).navigate(R.id.action_home_to_mapsFragment, bundle);
+//            }
+//        });
+
     }
 
     public void setGetPicture(GetPicture getPicture) {
