@@ -31,8 +31,16 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+
+            float latitude = getArguments().getFloat("latitude");
+            float longitude = getArguments().getFloat("longitude");
+
+            //todo bisognerebbe controllare che non siano null anche se in realtà arrivati qui non dovrebbero esserlo per opotesi
+
+            //todo il pulsante della mappa non sempre è cliccabile
+
+            LatLng sydney = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
@@ -50,6 +58,7 @@ public class MapsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        System.err.println("onViewCreated MapFragment"+ mapFragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
