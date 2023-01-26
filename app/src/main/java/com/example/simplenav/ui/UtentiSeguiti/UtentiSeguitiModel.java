@@ -10,6 +10,11 @@ import com.example.simplenav.CommucationController.getFollowed;
 import com.example.simplenav.CommucationController.getPictureI;
 import com.example.simplenav.CommucationController.getProfile;
 import com.example.simplenav.CommucationController.getProfileO;
+import com.example.simplenav.DB.PictureDB.ErrorPictureDBListener;
+import com.example.simplenav.DB.PictureDB.PictureDBListener;
+import com.example.simplenav.DB.PictureDB.PictureRepository;
+import com.example.simplenav.DB.PictureDB.Sid;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +70,28 @@ public class UtentiSeguitiModel extends ViewModel {
                     //follower.add(x);
                     user.setName(x.getName());
                     user.setUid(x.getUid());
+
+                    //todo
+                    //Qui prima di fare la chiamata di rete controllo
+                    // il db per verificare se sia presewnte o meno l'immagine profilo
+
+                    //prendi il sid dalle preferences
+                    Sid sid = new Sid();
+                    PictureRepository.getPicture(sid, 1, new PictureDBListener() {
+                        @Override
+                        public void onPictureReady(byte[] picture) {
+                            //qui gestisco immagine che ho ottenuto
+                        }
+                    }, new ErrorPictureDBListener() {
+                        @Override
+                        public void onError(Throwable t) {
+                            //gestisco il caso di errore
+                            //todo
+                        }
+                    });
+
+
+
                     communicationController.getPicture("qaKOeIk1DhEvBLOruWaR", x.getUid(), new getPictureI() {
                         @Override
                         public void getPicture(GetPicture body) {
