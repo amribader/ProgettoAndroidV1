@@ -329,7 +329,7 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
 
                     //controllo sulla lunghezza maZssima
                     if(s.length()>=137000){
-                        profile.setPictur(R.drawable.ic_baseline_account_circle_24);
+                        //profile.setPictur(R.drawable.ic_baseline_account_circle_24);
                     }
 
                     imageSelcted = s;
