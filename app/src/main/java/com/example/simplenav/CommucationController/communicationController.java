@@ -1,5 +1,7 @@
 package com.example.simplenav.CommucationController;
 
+import com.example.simplenav.DB.PictureDB.Sid;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -27,6 +29,25 @@ public class communicationController {//implements Callback<GetPicture> {
         System.err.println("metodo set" + getPicture);
         this.getPicture = getPicture;
     }
+
+
+    public static void register(onSidReadyListener onSidReadyListener){
+        Call<Sid> call = RetrofitClient.getInstance().getMyApi().getSid();
+        call.enqueue(new Callback<Sid>() {
+            @Override
+            public void onResponse(Call<Sid> call, Response<Sid> response) {
+                System.err.println("CommunicationController REGISTER SUCCESS");
+                //todo fare i controlli sul code
+                onSidReadyListener.onSidReasy(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Sid> call, Throwable t) {
+                System.err.println("Errore chiamata di rete CommunicationController REGISTER");
+            }
+        });
+    }
+
 
 //    public static void setProfile(String sid, String name, String picture, OnSetProfileListener onSetProfileListener){
     public static void setProfile(OnSetProfileListener onSetProfileListener, setProfileI profile){

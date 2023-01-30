@@ -1,5 +1,7 @@
 package com.example.simplenav.CommucationController;
 
+import com.example.simplenav.DB.PictureDB.Sid;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,5 +50,9 @@ public interface Api {
 
     @POST("addTwok")
     Call<Void> addTwok(@Body GetTwok twok);
+
+
+    @POST("register")
+    Call<Sid>getSid();
 
 }

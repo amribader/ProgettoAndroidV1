@@ -19,6 +19,7 @@ public class Twok {
         this.picture = picture;
     }
 
+
     public int getUid() {
         return uid;
     }
@@ -35,5 +36,15 @@ public class Twok {
     @NotNull
     public String getPicture() {
         return picture;
+    }
+
+    @Override
+    public String toString() {
+        return "Twok{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", pversion=" + pversion +
+                ", picture='" + picture + '\'' +
+                '}';
     }
 }

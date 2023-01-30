@@ -1,8 +1,12 @@
 package com.example.simplenav.CommucationController;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NotNull;
+
 
 public class GetPicture {
     @SerializedName("name")
@@ -11,6 +15,7 @@ public class GetPicture {
     private @NotNull String picture;
     @SerializedName("pversion")
     private int pversion;
+
     @SerializedName("uid")
     private int uid;
 

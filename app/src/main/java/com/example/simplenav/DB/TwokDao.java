@@ -6,15 +6,25 @@ import androidx.room.Index;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.example.simplenav.CommucationController.GetPicture;
+import com.example.simplenav.CommucationController.GetTwok;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import java.util.List;
 
 @Dao
 public interface TwokDao {
+//    @Insert
+//    void insertAll(Twok...twoks);
+
     @Insert
-    void insertAll(Twok...twoks);
+    ListenableFuture<Void> insertAll(Twok...twoks);
+
+//    @Query("SELECT * FROM twok")
+//    List<Twok> getAll();
 
     @Query("SELECT * FROM twok")
-    List<Twok> getAll();
+    ListenableFuture<List<Twok>> getAll();
 
     @Query("SELECT * FROM twok WHERE uid IN (:userIds)")
     List<Twok> loadAllByIds(int[] userIds);
@@ -24,5 +34,10 @@ public interface TwokDao {
 
     @Delete
     void delete(Twok twok);
+
+    ///Aggiornate giuste
+
+    @Query("SELECT * FROM Twok WHERE uid = :uid")
+    public ListenableFuture<Twok> loadUserById(int uid);
 
 }
