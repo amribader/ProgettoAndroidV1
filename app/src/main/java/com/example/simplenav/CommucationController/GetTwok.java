@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 public class GetTwok {
 
-    private String sid = "qaKOeIk1DhEvBLOruWaR";
+    private String sid ;
 
     private String picture;
 

@@ -1,6 +1,8 @@
 package com.example.simplenav.ui.UtentiSeguiti;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
 import androidx.lifecycle.ViewModel;
@@ -72,10 +74,34 @@ public class UtentiSeguitiModel extends ViewModel {
         System.err.println("prova SID"+sharedpreferences.contains("sid"));
         System.err.println("prova SID"+sharedpreferences.getString("sid",""));
 
-        String sid = sharedpreferences.getString("sid","");
+        Sid sid = new Sid();
+        sid.setSid(sharedpreferences.getString("sid",""));
 
             communicationController.getFollowed(body -> {
-                //System.err.println("responso utenti seguiti"+body);
+                System.err.println("responso utenti seguiti"+body);
+                System.err.println("responso utenti seguiti"+body.size());
+
+                //controllo che la lunghezza dell'array sia diversa da zero
+                //se l'array è vuoto vuol dire che non segue nessuno
+
+                if(body.size()==0){
+                    //cioè l'array è vuoto quindi non seguo nessuno
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setMessage("NON SEGUI NESSUN UTENTE!!");
+                    alertDialogBuilder.setPositiveButton("Vuoi tornare alla bacheca??", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //codice per mandarlo in bacheca
+                        }
+                    });
+//                    alertDialogBuilder.setNegativeButton(CharSequence text,
+//                            DialogInterface.OnClickListener listener)
+                    AlertDialog alert = alertDialogBuilder.create();
+                    //Setting the title manually
+                    alert.setTitle("ATTENZIONE");
+                    alert.show();
+                }
+
                 for (getProfileO x: body) {
             getProfileO user = new getProfileO();
                     System.err.println("body getTwok"+x);
@@ -89,7 +115,7 @@ public class UtentiSeguitiModel extends ViewModel {
 
                     //prendi il sid dalle preferences
                     //Sid sid = new Sid();
-                    PictureRepository.getPicture(sid, 1, x.getUid(), new PictureDBListener() {
+                    PictureRepository.getPicture(sid.getSid(), 1, x.getUid(), new PictureDBListener() {
                         @Override
                         public void onPictureReady(String picture) {
                             //qui gestisco immagine che ho ottenuto
@@ -122,7 +148,7 @@ public class UtentiSeguitiModel extends ViewModel {
                 //System.err.println("follower2"+follower);
                 //follower.add(user);
                 //rv.getAdapter().notifyDataSetChanged();//funziona provo a spostarlo sopra
-            });
+            },sid);
             //System.err.println("follower"+follower);
         }
 

@@ -104,8 +104,10 @@ public class communicationController {//implements Callback<GetPicture> {
 
     }
 
-    public static void getFollowed(getFollowed getFollowed){
+    public static void getFollowed(getFollowed getFollowed,Sid sid){
+        //questa riga server per ottenere il sid
         GetTwok getTwok = new GetTwok();
+        getTwok.setSid(sid.getSid());
         Call<List<getProfileO>> call = RetrofitClient.getInstance().getMyApi().getFollowed(getTwok);
         call.enqueue(new Callback<List<getProfileO>>() {
             @Override
