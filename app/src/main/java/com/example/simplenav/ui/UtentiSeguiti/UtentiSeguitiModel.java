@@ -1,5 +1,7 @@
 package com.example.simplenav.ui.UtentiSeguiti;
 
+import android.content.Context;
+
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -61,7 +63,7 @@ public class UtentiSeguitiModel extends ViewModel {
         return follower;
     }
 
-    public void getOneTwok(RecyclerView rv) {
+    public void getOneTwok(RecyclerView rv, Context context) {
             communicationController.getFollowed(body -> {
                 //System.err.println("responso utenti seguiti"+body);
                 for (getProfileO x: body) {
@@ -88,7 +90,7 @@ public class UtentiSeguitiModel extends ViewModel {
                             //gestisco il caso di errore
                             //todo
                         }
-                    });
+                    },context);
 
 
 

@@ -49,7 +49,7 @@ public class UtentiSeguiti extends Fragment {
         UtentiSeguitiAdp adapter = new UtentiSeguitiAdp(model,getActivity());
         recyclerView.setAdapter(adapter);
 
-        model.getOneTwok(recyclerView);//riga giusta cosi funziona
+        model.getOneTwok(recyclerView,getContext());//riga giusta cosi funziona
         //model.initfakedata();
         ////model.getOneTwok(recyclerView);//riga giusta cosi funziona
         //model.fun(recyclerView);

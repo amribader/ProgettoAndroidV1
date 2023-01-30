@@ -18,4 +18,22 @@ public class Twok {
         this.pversion = pversion;
         this.picture = picture;
     }
+
+    public int getUid() {
+        return uid;
+    }
+
+    @NotNull
+    public String getName() {
+        return name;
+    }
+
+    public int getPversion() {
+        return pversion;
+    }
+
+    @NotNull
+    public String getPicture() {
+        return picture;
+    }
 }
