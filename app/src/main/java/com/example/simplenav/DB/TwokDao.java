@@ -38,6 +38,6 @@ public interface TwokDao {
     ///Aggiornate giuste
 
     @Query("SELECT * FROM Twok WHERE uid = :uid")
-    public ListenableFuture<Twok> loadUserById(int uid);
+    ListenableFuture<Twok> loadUserById(int uid);
 
 }

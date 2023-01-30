@@ -66,8 +66,9 @@ public class communicationController {//implements Callback<GetPicture> {
         });
     }
 
-    public static void getProfile(getProfile onSetProfileListener){
+    public static void getProfile(getProfile onSetProfileListener,Sid sid){
         GetTwok getTwok = new GetTwok();
+        getTwok.setSid(sid.getSid());
         Call<getProfileO> call = RetrofitClient.getInstance().getMyApi().getProfile(getTwok);
         call.enqueue(new Callback<getProfileO>() {
             @Override

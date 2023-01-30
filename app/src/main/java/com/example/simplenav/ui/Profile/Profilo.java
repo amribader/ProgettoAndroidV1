@@ -3,7 +3,9 @@ package com.example.simplenav.ui.Profile;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,7 @@ import com.example.simplenav.CommucationController.communicationController;
 import com.example.simplenav.CommucationController.getProfile;
 import com.example.simplenav.CommucationController.getProfileO;
 import com.example.simplenav.CommucationController.setProfileI;
+import com.example.simplenav.DB.PictureDB.Sid;
 import com.example.simplenav.R;
 
 import java.io.ByteArrayOutputStream;
@@ -63,6 +67,17 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+
+    //sid
+    public static final String mypreference = "mypref";
+
+
+
+    Sid sid = new Sid();
+
+
 
     public Profilo() {
         // Required empty public constructor
@@ -116,6 +131,10 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //
+        SharedPreferences sharedpreferences = getActivity().getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+
         //assign variable
         btPick = view.findViewById(R.id.bt_pick);
         recyclerView = view.findViewById(R.id.recyclerviewProfilo);
@@ -131,15 +150,32 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
         // LE INFORMAZIONI RIGUARDANTE L'ACCOUNT
 
 
+        System.err.println("prova SID"+sharedpreferences.contains("sid"));
+        System.err.println("prova SID"+sharedpreferences.getString("sid",""));
+        sid.setSid(sharedpreferences.getString("sid",""));
+
+
         communicationController.getProfile(body -> {
+            Log.d("Prodilo","chiamata avvenuta con susccesso");
             System.err.println("body get profile" + body);
             textViewName.setText(body.getName());
 
-            byte[] decodedString = Base64.decode(body.getPicture(),Base64.DEFAULT);
-            Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
-            OldImage.setImageBitmap(decodeByte);
+            //gestire il caso in cui immagine sia null
 
-        });
+            if(body.getPicture()==null){
+                //immagine non formattata correttamente null
+                OldImage.setBaseline(R.drawable.ic_baseline_account_circle_24);
+
+            }else{
+                //se immagine è presente
+                byte[] decodedString = Base64.decode(body.getPicture(),Base64.DEFAULT);
+                Bitmap decodeByte = BitmapFactory.decodeByteArray(decodedString,0,decodedString.length);
+                OldImage.setImageBitmap(decodeByte);
+            }
+
+            //mettere un toas profilo impostato correttamente
+
+        },sid);
 
 //
 //        getProfile(new getProfile() {
@@ -191,7 +227,7 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
 
         btnChangePicture.setOnClickListener(v ->{
             setProfileI profile = new setProfileI();
-            profile.setSid("qaKOeIk1DhEvBLOruWaR");
+            profile.setSid(sid.getSid());
             profile.setPicture(imageSelcted);
             profile.setName(textViewName.getText().toString());
             Call<Void> call2 = RetrofitClient.getInstance().getMyApi().setProfile(profile);
@@ -201,6 +237,28 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
                     System.err.println("Response");
                     System.err.println(response);
                     System.err.println(response.body());
+
+
+
+                    int duration = Toast.LENGTH_SHORT;
+                    CharSequence text = "Hello toast!";
+
+                    //todo gestire i casi di errore
+                    //mostrsre un alrt che dics che l'operaxoine è andata a buon fine
+                    int code = response.code();
+                    if (code >= 200 && code < 300) {
+                        text = "operazione eseguita con successo"+code;
+                    } else if (code == 401) {
+                        text = "errore client profilo!"+code;
+                    } else if (code >= 400 && code < 500) {
+                        text = "errore client profilo!"+code;
+                    } else if (code >= 500 && code < 600) {
+                        text = "errore server profilo!"+code;
+                    } else {
+                        text = "ERROR IMPOSSIBLE PROFILO";
+                    }
+                    Toast toast = Toast.makeText(getActivity(), text, duration);
+                    toast.show();
                 }
 
                 @Override
@@ -268,6 +326,12 @@ public class Profilo extends Fragment implements EasyPermissions.PermissionCallb
 
                     String s = Base64.encodeToString(bytes,Base64.DEFAULT);
                     //System.err.println("String"+s);
+
+                    //controllo sulla lunghezza maZssima
+                    if(s.length()>=137000){
+                        profile.setPictur(R.drawable.ic_baseline_account_circle_24);
+                    }
+
                     imageSelcted = s;
 
                 } catch (IOException e) {

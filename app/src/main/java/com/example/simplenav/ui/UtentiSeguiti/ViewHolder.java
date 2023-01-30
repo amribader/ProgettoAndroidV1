@@ -16,8 +16,8 @@ import com.example.simplenav.CommucationController.getProfileO;
 import com.example.simplenav.R;
 
 public class ViewHolder extends RecyclerView.ViewHolder {//si adatta al loyout sigle line
-    private ImageView image;
-    private TextView text;
+    private final ImageView image;
+    private final TextView text;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);

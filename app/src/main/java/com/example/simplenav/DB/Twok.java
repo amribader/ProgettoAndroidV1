@@ -7,10 +7,10 @@ import org.jetbrains.annotations.NotNull;
 @Entity
 public class Twok {
     @PrimaryKey
-    private int uid;
-    private @NotNull String name;
-    private int pversion;
-    private @NotNull String picture;
+    private final int uid;
+    private final @NotNull String name;
+    private final int pversion;
+    private final @NotNull String picture;
 
     public Twok(int uid, @NotNull String name, int pversion, @NotNull String picture) {
         this.uid = uid;

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.simplenav.CommucationController.GetPicture;
@@ -16,6 +17,7 @@ import com.example.simplenav.DB.PictureDB.ErrorPictureDBListener;
 import com.example.simplenav.DB.PictureDB.PictureDBListener;
 import com.example.simplenav.DB.PictureDB.PictureRepository;
 import com.example.simplenav.DB.PictureDB.Sid;
+import com.example.simplenav.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +94,7 @@ public class UtentiSeguitiModel extends ViewModel {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //codice per mandarlo in bacheca
+                            //Navigation.findNavController().navigate(R.id.action_home_to_mapsFragment);
                         }
                     });
 //                    alertDialogBuilder.setNegativeButton(CharSequence text,

@@ -38,11 +38,27 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        communicationController.register(body -> {
-            editor.putString("sid",body.getSid());
-            editor.commit();
-        });
+        if(sharedpreferences.contains("sid")){
+            //ce sullo storage
+            System.err.println("sif già presente sullo storage");
+            System.err.println("sif già presente sullo storage"+sharedpreferences.getString("sid",""));
+
+
+        }else{
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+
+            communicationController.register(body -> {
+                editor.putString("sid",body.getSid());
+                editor.commit();
+            });
+            //non ce sullo storage
+            System.err.println("sif non presente sullo storage NONONO");
+        }
+
+        System.err.println("prova SID"+sharedpreferences.contains("sid"));
+        System.err.println("prova SID"+sharedpreferences.getString("sid",""));
+
+
 
 
     }

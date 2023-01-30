@@ -32,7 +32,7 @@ import retrofit2.Response;
 
 
 public class Home extends Fragment {
-    private TwoksRepository twoksRepository = new TwoksRepository();
+    private final TwoksRepository twoksRepository = new TwoksRepository();
     private ViewPager2 viewPager2;
 //    private TwoksRepository twoksRepository = null;
     //private TwoksRepository twoksRepository = new ViewModelProvider(this).get(TwoksRepository.class);
